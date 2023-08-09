@@ -17,7 +17,7 @@ public class Client {
     private String lastName;
     private String email;
 
-    //relacion uno a muchos
+    //relacion uno a muchos client-account
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
     private Set<Account> accounts= new HashSet<>();
 
