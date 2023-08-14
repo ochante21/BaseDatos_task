@@ -1,12 +1,7 @@
 package com.mindhub.homebanking;
 
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -22,18 +18,22 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 	@Bean
-	public CommandLineRunner init(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository TransactionRepository){
+	public CommandLineRunner init(ClientRepository ClientRepository,
+								  AccountRepository AccountRepository,
+								  TransactionRepository TransactionRepository,
+								  LoanRepository LoanRepository,
+								  ClientLoanRepository ClientLoanRepository){
 		return args ->{
 			//crear al cliente
 			Client cliente1= new Client("Melba","Morel","melba@mindhub.com");
 			Client cliente2= new Client("bronco","broncudo","caballo.loco@bronco.com");
 
-			//guerdar en la base de datos al cliente
+			//guardar en la base de datos al cliente
 			ClientRepository.save(cliente1);
 			ClientRepository.save(cliente2);
 
 			//crear una cuenta
-			Account cuenta1 = new Account("VIN001", LocalDate.now(),5000.00);
+			Account cuenta1 = new Account("VIN001", LocalDate.now().minusDays(1),5000.00);
 			Account cuenta2 = new Account("VIN002", LocalDate.now().plusDays(1),7500.00);
 
 			Account cuenta3= new Account("H2OlGA001",LocalDate.now().plusDays(3), 10000.00);
@@ -49,21 +49,21 @@ public class HomebankingApplication {
 			AccountRepository.save(cuenta2);
 			AccountRepository.save(cuenta3);
 
-			//agregar trasferencias
-			Transaction transaction1= new Transaction(TransactionType.credit,30000.00,"transferencia familiar", LocalDateTime.now());
-			Transaction transaction2= new Transaction(TransactionType.debit,23000.00,"cena familiar", LocalDateTime.now());
-			Transaction transaction3= new Transaction(TransactionType.debit,1300.00,"propina", LocalDateTime.now());
-			Transaction transaction4= new Transaction(TransactionType.credit,1000.00,"transferecia", LocalDateTime.now());
-			Transaction transaction5= new Transaction(TransactionType.debit,9000.00,"playera", LocalDateTime.now());
-			Transaction transaction6= new Transaction(TransactionType.credit,10000.00,"sueldo", LocalDateTime.now());
-			Transaction transaction7= new Transaction(TransactionType.debit,1000.00,"sube", LocalDateTime.now());
-			Transaction transaction8= new Transaction(TransactionType.debit,15000.00,"comida", LocalDateTime.now());
+			//crear transacciones
+			Transaction transaction1= new Transaction(TransactionType.CREDIT,30000.00,"transferencia familiar", LocalDateTime.now());
+			Transaction transaction2= new Transaction(TransactionType.DEBIT,23000.00,"cena familiar", LocalDateTime.now());
+			Transaction transaction3= new Transaction(TransactionType.DEBIT,1300.00,"propina", LocalDateTime.now());
+			Transaction transaction4= new Transaction(TransactionType.CREDIT,1000.00,"transferecia", LocalDateTime.now());
+			Transaction transaction5= new Transaction(TransactionType.DEBIT,9000.00,"playera", LocalDateTime.now());
+			Transaction transaction6= new Transaction(TransactionType.CREDIT,10000.00,"sueldo", LocalDateTime.now());
+			Transaction transaction7= new Transaction(TransactionType.DEBIT,1000.00,"sube", LocalDateTime.now());
+			Transaction transaction8= new Transaction(TransactionType.DEBIT,15000.00,"comida", LocalDateTime.now());
 
-			Transaction transaction9= new Transaction(TransactionType.credit,10000.00,"sueldo", LocalDateTime.now());
-			Transaction transaction10= new Transaction(TransactionType.debit,1000.00,"sube", LocalDateTime.now());
-			Transaction transaction11= new Transaction(TransactionType.debit,9000.00,"playera", LocalDateTime.now());
-			Transaction transaction12= new Transaction(TransactionType.debit,23000.00,"cena familiar", LocalDateTime.now());
-			Transaction transaction13= new Transaction(TransactionType.debit,15000.00,"comida", LocalDateTime.now());
+			Transaction transaction9= new Transaction(TransactionType.CREDIT,10000.00,"sueldo", LocalDateTime.now());
+			Transaction transaction10= new Transaction(TransactionType.DEBIT,1000.00,"sube", LocalDateTime.now());
+			Transaction transaction11= new Transaction(TransactionType.DEBIT,9000.00,"playera", LocalDateTime.now());
+			Transaction transaction12= new Transaction(TransactionType.DEBIT,23000.00,"cena familiar", LocalDateTime.now());
+			Transaction transaction13= new Transaction(TransactionType.DEBIT,15000.00,"comida", LocalDateTime.now());
 
 
 			//agregar transacciones ala cuenta
@@ -100,7 +100,43 @@ public class HomebankingApplication {
 			TransactionRepository.save(transaction13);
 			TransactionRepository.save(transaction9);
 
+			//crear tipos de prestamos
 
+			Loan loan1=new Loan("Hipotecario",500000.00, List.of(12,24,36,48,60));
+			Loan loan2=new Loan("Personal",100000.00, List.of(6,12,24));
+			Loan loan3=new Loan("Automotriz",300000.00, List.of(6,12,24,36));
+
+			//guardar en la abse de datos
+			LoanRepository.save(loan1);
+			LoanRepository.save(loan2);
+			LoanRepository.save(loan3);
+
+			//crear prestamos de clientes
+			ClientLoan clientLoan1=new ClientLoan(400000.00,60,loan1.getName());
+			ClientLoan clientLoan2=new ClientLoan(50000.00,12,loan2.getName());
+			ClientLoan clientLoan3=new ClientLoan(100000.00,24,loan2.getName());
+			ClientLoan clientLoan4=new ClientLoan(200000.00,36,loan3.getName());
+
+			//agregar prestamos a clientes
+			//agregar al cliente1 la cantidad y el tipo de prestamos
+			cliente1.addClientLoan(clientLoan1);
+			loan1.addClientLoan(clientLoan1);
+
+			cliente1.addClientLoan(clientLoan2);
+			loan2.addClientLoan(clientLoan2);
+
+			//agregar al cliente la cantidad y el tipo de prestamos
+			cliente2.addClientLoan(clientLoan3);
+			loan2.addClientLoan(clientLoan3);
+
+			cliente2.addClientLoan(clientLoan4);
+			loan3.addClientLoan(clientLoan4);
+
+			//guardar los prestamos
+			ClientLoanRepository.save(clientLoan1);
+			ClientLoanRepository.save(clientLoan2);
+			ClientLoanRepository.save(clientLoan3);
+			ClientLoanRepository.save(clientLoan4);
 
 
 		};

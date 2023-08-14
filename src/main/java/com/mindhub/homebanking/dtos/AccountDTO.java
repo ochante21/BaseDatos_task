@@ -11,6 +11,8 @@ public class AccountDTO {
     private String number;
     private LocalDate creationDate;
     private Double balance;
+
+    //uno a muchos account-transaction
     private Set<TransactionDTO> transactions;
 
     public AccountDTO(Account account){
@@ -38,6 +40,7 @@ public class AccountDTO {
         return balance;
     }
 
+    //account-transaction
     public Set<TransactionDTO> getTransactions() {
         return transactions;
     }

@@ -31,7 +31,6 @@ public class Transaction {
     }
 
     //getter y setter
-
     public long getId() {
         return id;
     }
@@ -68,6 +67,8 @@ public class Transaction {
         this.date = date;
     }
 
+
+    //transaction-account
     public Account getAccount() {
         return account;
     }

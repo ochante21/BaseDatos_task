@@ -65,6 +65,8 @@ public class Account {
         this.balance = balance;
     }
 
+
+    //account-client
     public Client getClient() {
         return client;
     }
@@ -73,12 +75,11 @@ public class Account {
         this.client = client;
     }
 
+
+
+    //account-transaction
     public Set<Transaction> getTransactions() {
         return transactions;
-    }
-
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
     }
     public void addTransaction(Transaction transaction){
         transaction.setAccount(this);
