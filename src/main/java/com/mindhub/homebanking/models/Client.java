@@ -23,9 +23,13 @@ public class Client {
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
     private Set<Account> accounts= new HashSet<>();
 
-    //relacion muchos a muchos client-loan
+    //relacion muchos a muchos client-loan (con tabla intermedia)
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
     private Set<ClientLoan> clientLoans= new HashSet<>();
+
+    //relacion muchos a muchos client-card(tabla intermedia generada automaticamente)
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "clients")
+    private Set<Card> cards= new HashSet<>();
 
     //constructores
     public Client() { }
@@ -88,4 +92,13 @@ public class Client {
         this.clientLoans.add(clientLoan);
     }
 
+    //client-card
+
+    public Set<Card> getCards() {
+        return cards;
+    }
+    public void addCard(Card card){
+        card.getClients().add(this);
+        cards.add(card);
+    }
 }

@@ -19,6 +19,9 @@ public class ClientDTO {
     //uno a muchos client - clientloan
     private Set<ClientLoanDTO> loans;
 
+    //muchos a muchos client-card
+    private  Set<CardDTO> cards;
+
     public ClientDTO(Client client) {
         id=client.getId();
         firstName = client.getFirstName();
@@ -26,6 +29,7 @@ public class ClientDTO {
         email= client.getEmail();
         accounts=client.getAccounts().stream().map(account -> new AccountDTO(account)).collect(Collectors.toSet());
         loans=client.getClientLoans().stream().map(clientLoan -> new ClientLoanDTO(clientLoan)).collect(Collectors.toSet());
+        cards=client.getCards().stream().map(card -> new CardDTO(card)).collect(Collectors.toSet());
     }
 
     public long getId() {
@@ -52,5 +56,10 @@ public class ClientDTO {
     //client-clientloan
     public Set<ClientLoanDTO> getLoans() {
         return loans;
+    }
+
+    //client-card
+    public Set<CardDTO> getCards() {
+        return cards;
     }
 }

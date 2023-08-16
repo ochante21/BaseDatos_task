@@ -1,5 +1,8 @@
 package com.mindhub.homebanking;
 
+import com.mindhub.homebanking.Enums.CardColor;
+import com.mindhub.homebanking.Enums.CardType;
+import com.mindhub.homebanking.Enums.TransactionType;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
@@ -22,11 +25,12 @@ public class HomebankingApplication {
 								  AccountRepository AccountRepository,
 								  TransactionRepository TransactionRepository,
 								  LoanRepository LoanRepository,
-								  ClientLoanRepository ClientLoanRepository){
+								  ClientLoanRepository ClientLoanRepository,
+								  CardRepository CardRepository){
 		return args ->{
 			//crear al cliente
 			Client cliente1= new Client("Melba","Morel","melba@mindhub.com");
-			Client cliente2= new Client("bronco","broncudo","caballo.loco@bronco.com");
+			Client cliente2= new Client("Bronco","Broncudo","caballo.loco@bronco.com");
 
 			//guardar en la base de datos al cliente
 			ClientRepository.save(cliente1);
@@ -138,6 +142,20 @@ public class HomebankingApplication {
 			ClientLoanRepository.save(clientLoan3);
 			ClientLoanRepository.save(clientLoan4);
 
+			//crear tarjeta para clientes
+			Card card1= new Card(cliente1.toString(), CardType.DEBIT, CardColor.GOLD,1234567890L,322,LocalDate.now(),LocalDate.now().plusYears(5));
+			Card card2= new Card(cliente1.toString(), CardType.CREDIT, CardColor.TITANIUM,9876543210L,101,LocalDate.now(),LocalDate.now().plusYears(5));
+			Card card3= new Card(cliente2.toString(), CardType.CREDIT, CardColor.SILVER,4321876509L,666,LocalDate.now(),LocalDate.now().plusYears(2));
+
+			//asignar las cartas a clientes
+			cliente1.addCard(card1);
+			cliente1.addCard(card2);
+			cliente2.addCard(card3);
+
+			//guardar en la base
+			CardRepository.save(card1);
+			CardRepository.save(card2);
+			CardRepository.save(card3);
 
 		};
 
