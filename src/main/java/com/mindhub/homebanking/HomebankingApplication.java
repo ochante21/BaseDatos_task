@@ -70,7 +70,7 @@ public class HomebankingApplication {
 			Transaction transaction13= new Transaction(TransactionType.DEBIT,15000.00,"comida", LocalDateTime.now());
 
 
-			//agregar transacciones ala cuenta
+			//agregar transacciones a la cuenta
 			cuenta1.addTransaction(transaction1);
 			cuenta1.addTransaction(transaction2);
 			cuenta1.addTransaction(transaction3);
