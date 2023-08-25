@@ -17,7 +17,7 @@ public class Client {
     private long id;
     private String firstName;
     private String lastName;
-    private String email;
+    private String email,password;
 
     //relacion uno a muchos client-account
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
@@ -34,10 +34,11 @@ public class Client {
     //constructores
     public Client() { }
 
-    public Client(String first, String last, String mail) {
-        firstName = first;
-        lastName = last;
-        email= mail;
+    public Client(String first, String last, String mail, String password) {
+        this.firstName = first;
+        this.lastName = last;
+        this.email= mail;
+        this.password= password;
     }
     //metodos o comportamientos
 
@@ -73,6 +74,13 @@ public class Client {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     //client-account
     public Set<Account> getAccounts() {
