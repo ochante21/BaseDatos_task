@@ -25,11 +25,13 @@ public class Account {
     private Client client;
 
     //relacion uno a muchos account-transaction
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private Set<Transaction> transactions = new HashSet<>();
 
     //Constructores
-    public Account(){}
+    public Account() {
+    }
+
     public Account(String number, LocalDate creationDate, Double balance) {
         this.number = number;
         this.creationDate = creationDate;
@@ -76,12 +78,12 @@ public class Account {
     }
 
 
-
     //account-transaction
     public Set<Transaction> getTransactions() {
         return transactions;
     }
-    public void addTransaction(Transaction transaction){
+
+    public void addTransaction(Transaction transaction) {
         transaction.setAccount(this);
         this.transactions.add(transaction);
     }

@@ -19,12 +19,26 @@ import javax.servlet.http.HttpSession;
 public class WebAuthorization {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
+                //client repository
                 .antMatchers(HttpMethod.GET,"/api/clients" ).hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET,"/api/clients/**").hasAuthority("CLIENT")
-                .antMatchers(HttpMethod.POST ,"/api/clients").hasAuthority("CLIENT");
+                //.antMatchers(HttpMethod.GET,"/api/clients/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/current").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.GET,"/api/clients/current").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
+                //account repository
+                .antMatchers(HttpMethod.GET,"/api/accounts").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/accounts/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/clients/current/accounts").hasAuthority("CLIENT")
+                //cards repository
+                .antMatchers(HttpMethod.GET,"/api/cards").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST ,"/api/clients/current/cards").hasAuthority("CLIENT")
+                //frond
+                .antMatchers(HttpMethod.GET,"/web/**").permitAll()
+                .anyRequest().denyAll();
+                //.anyRequest().permitAll();
 
         http.formLogin()
 
@@ -41,7 +55,7 @@ public class WebAuthorization {
         http.csrf().disable();
 
         //deshabilitar frameOptions para poder acceder a h2-console
-            http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable();
 
         // Si el inicio de sesión es exitoso, borre las handler que solicitan autenticación.
         http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
@@ -53,7 +67,7 @@ public class WebAuthorization {
         http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
 
-return http.build();
+        return http.build();
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request) {
