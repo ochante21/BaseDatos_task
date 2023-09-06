@@ -27,14 +27,18 @@ public class WebAuthorization {
                 //.antMatchers(HttpMethod.GET,"/api/clients/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/current").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.GET,"/api/clients/current").hasAuthority("CLIENT")
+                //.antMatchers(HttpMethod.GET,"/api/clients/current").hasAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
                 //account repository
                 .antMatchers(HttpMethod.GET,"/api/accounts").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET,"/api/accounts/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/accounts/**").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/api/clients/current/accounts").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.GET,"/api/clients/current/accounts").hasAuthority("CLIENT")
                 //cards repository
                 .antMatchers(HttpMethod.GET,"/api/cards").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/api/clients/current/cards").hasAuthority("CLIENT")
+                //transaccionrepository
+                .antMatchers(HttpMethod.POST ,"/api/transactions").hasAuthority("CLIENT")
                 //frond
                 .antMatchers(HttpMethod.GET,"/web/**").permitAll()
                 .anyRequest().denyAll();
