@@ -56,40 +56,12 @@ public class AccountServiceImplement implements AccountService {
 
     }
 
+    //guardarcuenta
     @Override
-    //agregar cuentas al cliente
-    public ResponseEntity<Object> responseAccount(Authentication authentication) {
-        String number;
-        LocalDate creationDate;
-        Double balance;
-
-        //cliente autenticado
-        Client client = clientRepository.findByEmail(authentication.getName());
-
-
-        if (client.getAccounts().size() >= 3) {
-
-            return new ResponseEntity<>("No puedes tener mas de 3 cuentas", HttpStatus.FORBIDDEN);
-
-        }
-
-        Random random = new Random();
-        Integer numeroRandom = random.nextInt(100000000);
-
-        number = "VIN-" + numeroRandom.toString();
-
-        creationDate = LocalDate.now();
-
-        balance = 0.00;
-
-        Account cuentaCreada = new Account(number, creationDate, balance);
-        client.addAccount(cuentaCreada);
-
-        accountRepository.save(cuentaCreada);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
+    public void saveAccount(Account account){
+        accountRepository.save(account);
     }
+
 
 
 }

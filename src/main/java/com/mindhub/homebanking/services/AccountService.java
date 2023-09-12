@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
+import com.mindhub.homebanking.models.Account;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
@@ -13,5 +14,5 @@ public interface AccountService {
 
     List<AccountDTO> getAccountDTO(Authentication authentication);
 
-    ResponseEntity<Object> responseAccount(Authentication authentication);
+    void saveAccount(Account account);
 }

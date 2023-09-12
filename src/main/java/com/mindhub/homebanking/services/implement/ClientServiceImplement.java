@@ -24,10 +24,6 @@ public class ClientServiceImplement implements ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<ClientDTO> getClientsDTO() {
@@ -48,57 +44,11 @@ public class ClientServiceImplement implements ClientService {
         return clientDTO;
     }
 
-
-    //Registrar un cliente
     @Override
-    public ResponseEntity<Object> register(
-
-            //@RequestParam
-            String firstName,
-            //@RequestParam
-            String lastName,
-            //@RequestParam
-            String email,
-            //@RequestParam
-            String password) {
-
-
-        if (firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()) {
-
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
-
-        }
-
-
-        if (clientRepository.findByEmail(email) != null) {
-
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
-
-        }
-
-        Client clienteNuevo = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-
-        clientRepository.save(clienteNuevo);
-
-        //crear cuenta al registar cliente
-        Random random = new Random();
-        Integer numeroRandom = random.nextInt(100000000);
-
-        String number = "VIN-" + numeroRandom.toString();
-
-        LocalDate creationDate = LocalDate.now();
-
-        Double balance = 0.00;
-
-        Account cuentaCreada = new Account(number, creationDate, balance);
-
-        clienteNuevo.addAccount(cuentaCreada);
-
-        accountRepository.save(cuentaCreada);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
+    public void saveClient(Client client) {
+        clientRepository.save(client);
     }
+
 
     //Retorna informacion del cliente autentificado
     @Override

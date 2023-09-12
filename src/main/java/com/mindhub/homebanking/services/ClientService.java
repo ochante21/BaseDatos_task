@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.ClientDTO;
+import com.mindhub.homebanking.models.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
@@ -12,16 +13,7 @@ public interface ClientService {
 
     ClientDTO getClient(Long id);
 
-    ResponseEntity<Object> register(
-
-            //@RequestParam
-            String firstName,
-            //@RequestParam
-            String lastName,
-            //@RequestParam
-            String email,
-            //@RequestParam
-            String password);
+    void saveClient(Client client);
 
     ClientDTO getClientDTO(Authentication authentication);
 

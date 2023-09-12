@@ -21,7 +21,7 @@ public class WebAuthorization {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
+                /*.antMatchers("/rest/**").hasAuthority("ADMIN")
                 //client repository
                 .antMatchers(HttpMethod.GET,"/api/clients" ).hasAuthority("ADMIN")
                 //.antMatchers(HttpMethod.GET,"/api/clients/**").hasAuthority("ADMIN")
@@ -39,10 +39,12 @@ public class WebAuthorization {
                 .antMatchers(HttpMethod.POST ,"/api/clients/current/cards").hasAuthority("CLIENT")
                 //transaccionrepository
                 .antMatchers(HttpMethod.POST ,"/api/transactions").hasAuthority("CLIENT")
+                //loanRepository
+                .antMatchers(HttpMethod.GET,"/api/loans").hasAuthority("CLIENT")
                 //frond
                 .antMatchers(HttpMethod.GET,"/web/**").permitAll()
-                .anyRequest().denyAll();
-                //.anyRequest().permitAll();
+                .anyRequest().denyAll();*/
+                .anyRequest().permitAll();
 
         http.formLogin()
 

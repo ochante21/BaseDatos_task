@@ -1,18 +1,10 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.Enums.TransactionType;
+import com.mindhub.homebanking.models.Transaction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
 public interface TransactionService {
-    ResponseEntity<Object> responseTransaction(
-            Authentication authentication,
-            //@RequestParam
-            String fromAccountNumber,
-            //@RequestParam
-            String toAccountNumber,
-            //@RequestParam
-            Double amount,
-            //@RequestParam
-            String description);
+    void saveTransaction(Transaction transaction);
 }
