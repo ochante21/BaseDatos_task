@@ -21,30 +21,31 @@ public class WebAuthorization {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                /*.antMatchers("/rest/**").hasAuthority("ADMIN")
-                //client repository
+                .antMatchers("/rest/**").hasAuthority("ADMIN")
+                //client controller
                 .antMatchers(HttpMethod.GET,"/api/clients" ).hasAuthority("ADMIN")
                 //.antMatchers(HttpMethod.GET,"/api/clients/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/current").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.GET,"/api/clients/current").hasAuthority("CLIENT")
                 //.antMatchers(HttpMethod.GET,"/api/clients/current").hasAuthority("CLIENT","ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
-                //account repository
+                //account controller
                 .antMatchers(HttpMethod.GET,"/api/accounts").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/accounts/**").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.GET,"/api/clients/current/accounts").hasAuthority("CLIENT")
-                //cards repository
+                //cards controller
                 .antMatchers(HttpMethod.GET,"/api/cards").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/api/clients/current/cards").hasAuthority("CLIENT")
-                //transaccionrepository
+                //transaction controller
                 .antMatchers(HttpMethod.POST ,"/api/transactions").hasAuthority("CLIENT")
-                //loanRepository
+                //loan controller
                 .antMatchers(HttpMethod.GET,"/api/loans").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST,"/api/loans").hasAuthority("CLIENT")
                 //frond
                 .antMatchers(HttpMethod.GET,"/web/**").permitAll()
-                .anyRequest().denyAll();*/
-                .anyRequest().permitAll();
+                .anyRequest().denyAll();
+                //.anyRequest().permitAll();
 
         http.formLogin()
 
